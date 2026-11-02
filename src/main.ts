@@ -22,7 +22,7 @@ export async function run(): Promise<void> {
     core.setOutput('time', new Date().toTimeString())
     // Write an advanced job summary
     core.summary
-      .addHeading('Advanced Job Summary', 'h2')
+      .addHeading('RKM Advanced Job Summary', 'h2')
       .addRaw(`Waited ${ms} milliseconds.`)
       .addRaw(`Current time: ${new Date().toTimeString()}`)
       .addImage(
