@@ -36,6 +36,12 @@ jobs:
       - name: Bundle and Format TypeScript into JavaScript
         id: npm-bundle
         run: npm run bundle
+        
+      - name: Automatically Commit and Push Bundle & Format Fixes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: automated bundle and format fixes [skip ci]"
+          file_pattern: 'dist/* src/* action.yml'
 
       - name: Automatically Commit and Push Bundle & Format Fixes
         id: git-push-bundle
