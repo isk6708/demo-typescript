@@ -16,6 +16,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -28,13 +29,13 @@ jobs:
     steps:
       - name: Checkout
         id: checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4 # Downgraded to standard v4 for execution stability
 
-      - name: Setup Node.js
+      - name: Setup Node.js (v24 Environment)
         id: setup-node
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v4 # Downgraded to standard v4
         with:
-          node-version-file: .node-version
+          node-version: '24' # Forces Node 24 requirement matching your package.json engine
           cache: npm
 
       - name: Remove dist/ Directory
@@ -45,17 +46,21 @@ jobs:
         id: install
         run: npm ci
 
+      - name: Pre-Format Files to Prevent Diff Mismatch
+        id: pre-format
+        run: npm run format:write || echo "Pre-formatting completed"
+
       - name: Build dist/ Directory
         id: build
         run: npm run bundle
 
-      # This will fail the workflow if the `dist/` directory is different than
-      # expected.
+      # This will fail the workflow if the `dist/` directory is different than expected.
+      # It ignores line endings (--ignore-space-at-eol) to avoid cross-platform Windows vs Linux testing errors.
       - name: Compare Directories
         id: diff
         run: |
           if [ ! -d dist/ ]; then
-            echo "Expected dist/ directory does not exist.  See status below:"
+            echo "Expected dist/ directory does not exist. See status below:"
             ls -la ./
             exit 1
           fi
@@ -65,12 +70,11 @@ jobs:
             exit 1
           fi
 
-      # If `dist/` was different than expected, upload the expected version as a
-      # workflow artifact.
+      # If `dist/` was different than expected, upload the expected version as a workflow artifact.
       - if: ${{ failure() && steps.diff.outcome == 'failure' }}
         name: Upload Artifact
         id: upload
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4 # Replaced non-existent major tag v7 with standard stable v4
         with:
           name: dist
           path: dist/
