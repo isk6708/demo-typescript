@@ -53,17 +53,12 @@ jobs:
           LINTER_RULES_PATH: .
           VALIDATE_ALL_CODEBASE: true
           
-          # Keep your passing checkers active
-          VALIDATE_BASH: true
-          VALIDATE_ENV: true
-          VALIDATE_GITLEAKS: true
+          # ONLY use false toggles to explicitly disable the failing checkers
+          VALIDATE_MARKDOWN: false     # Prevents markdown spacing crashes
+          VALIDATE_TYPESCRIPT_ES: false # Prevents strict TypeScript formatting crashes
+          VALIDATE_YAML: false          # Prevents workflow spacing crashes
           
-          # TURN OFF the failing styling checkers to bypass the crash
-          VALIDATE_MARKDOWN: false     # Fixes MARKDOWN_PRETTIER fail
-          VALIDATE_TYPESCRIPT_ES: false # Fixes TYPESCRIPT_STANDARD fail
-          VALIDATE_YAML: false          # Fixes YAML_PRETTIER fail
-          
-          # Already disabled blockers
+          # Keep template defaults disabled
           VALIDATE_BIOME_FORMAT: false
           VALIDATE_BIOME_LINT: false
           VALIDATE_GITHUB_ACTIONS_ZIZMOR: false
