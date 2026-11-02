@@ -29,22 +29,21 @@ export async function run(): Promise<void> {
         'https://octodex.github.com/images/droidtocat.png',
         'Droidtocat',
         {
-        width: '64',
-        height: '64'
+          width: '64',
+          height: '64'
         }
-        )
-        .addTable([
+      )
+      .addTable([
         [
-        { data: 'File', header: true },
-        { data: 'Result', header: true }
+          { data: 'File', header: true },
+          { data: 'Result', header: true }
         ],
         ['foo.js', 'Pass '],
         ['bar.js', 'Fail '],
         ['test.js', 'Pass ']
-        ])
-        .addLink('My custom link', 'https://writeabout.net')
+      ])
+      .addLink('My custom link', 'https://writeabout.net')
       .write()
-    
   } catch (error) {
     // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message)
