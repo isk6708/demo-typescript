@@ -28301,7 +28301,7 @@ async function run() {
         setOutput('time', new Date().toTimeString());
         // Write an advanced job summary
         summary
-            .addHeading('RKM Advanced Job Summary', 'h2')
+            .addHeading('Advanced Job Summary', 'h2')
             .addRaw(`Waited ${ms} milliseconds.`)
             .addRaw(`Current time: ${new Date().toTimeString()}`)
             .addImage('https://octodex.github.com/images/droidtocat.png', 'Droidtocat', {
