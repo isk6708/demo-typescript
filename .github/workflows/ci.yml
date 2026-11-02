@@ -47,12 +47,20 @@ jobs:
         id: git-push-bundle
         run: |
           git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@://github.com"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Stage the specific targeted directories
           git add dist/ src/main.ts action.yml
-          if ! git diff-index --quiet HEAD; then
+          
+          # Safely evaluate differences without letting bash crash on exit code 1
+          if git diff --cached --quiet; then
+            echo "No compiler or formatting bundle changes detected. Skipping push."
+          else
+            echo "Bundle changes detected! Committing changes..."
             git commit -m "chore: automated bundle and format fixes [skip ci]"
             git push
           fi
+        shell: bash
 
       - name: Check Formatting Standards
         id: npm-format-check
